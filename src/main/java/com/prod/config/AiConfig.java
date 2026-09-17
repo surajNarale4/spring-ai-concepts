@@ -13,6 +13,7 @@ public class AiConfig {
     public ChatClient ollamaChatModel(ChatClient.Builder builder){
         return builder.build();
     }
+    @Bean
     public ChatClient openAiChatModel(ChatClient.Builder builder){
         return builder.build();
     }
