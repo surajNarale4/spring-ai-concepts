@@ -1,6 +1,7 @@
 package com.prod.services;
 
 import com.prod.config.PROMPT;
+import com.prod.config.tools.DateTimeTools;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -15,6 +16,7 @@ import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,6 +28,7 @@ public class RAGService {
     private final ChatClient openAiChatClient;
     private final VectorStore vectorStore;
     private final ChatMemory chatMemory;
+    private final DateTimeTools dateTimeTools;
 
     public String askAiRAG(String text) {
 
@@ -53,9 +56,7 @@ public class RAGService {
                 .advisors(
                         MessageChatMemoryAdvisor.builder(chatMemory)
                                         .build(),
-                        SimpleLoggerAdvisor.builder().build(),
                         qaAdvisor
-
                 )
                 .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .call()
@@ -69,5 +70,13 @@ public class RAGService {
                 .filterExpression("type == 'movie'")
                         .build();
 
+    }
+
+    public String askAiTool(String text){
+        return openAiChatClient.prompt()
+                .user(text)
+                .tools(dateTimeTools)
+                .call()
+                .content();
     }
 }
