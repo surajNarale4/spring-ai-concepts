@@ -27,6 +27,7 @@ public class AiConfig {
     }
 
     @Bean("openAiChatClient")
+    @Primary
     public ChatClient openAi(@Qualifier("openAiChatModel") ChatModel openAiChatModel){
         return ChatClient.builder(openAiChatModel).build();
     }

@@ -46,7 +46,8 @@ public class AiService {
                         Map.of(
                                 "genre", "Action",
                                 "year", 2008,
-                                "director", "Christopher Nolan"
+                                "director", "Christopher Nolan",
+                                "type", "movie"
                         )
                 ),
                 new Document(
@@ -54,7 +55,8 @@ public class AiService {
                         Map.of(
                                 "genre", "Sci-Fi",
                                 "year", 2010,
-                                "director", "Christopher Nolan"
+                                "director", "Christopher Nolan",
+                                "type", "movie"
                         )
                 ),
                 new Document(
@@ -62,10 +64,120 @@ public class AiService {
                         Map.of(
                                 "genre", "Sci-Fi",
                                 "year", 2014,
-                                "director", "Christopher Nolan"
+                                "director", "Christopher Nolan",
+                                "type", "movie"
+                        )
+                ),
+                new Document(
+                        "The Matrix",
+                        Map.of(
+                                "genre", "Sci-Fi",
+                                "year", 1999,
+                                "director", "The Wachowskis",
+                                "type", "movie"
+                        )
+                ),
+                new Document(
+                        "Avengers: Endgame",
+                        Map.of(
+                                "genre", "Action",
+                                "year", 2019,
+                                "director", "Anthony Russo, Joe Russo",
+                                "type", "movie"
+                        )
+                ),
+                new Document(
+                        "The Shawshank Redemption",
+                        Map.of(
+                                "genre", "Drama",
+                                "year", 1994,
+                                "director", "Frank Darabont",
+                                "type", "movie"
+                        )
+                ),
+                new Document(
+                        "Breaking Bad",
+                        Map.of(
+                                "genre", "Crime",
+                                "year", 2008,
+                                "director", "Vince Gilligan",
+                                "type", "webseries"
+                        )
+                ),
+                new Document(
+                        "Stranger Things",
+                        Map.of(
+                                "genre", "Sci-Fi",
+                                "year", 2016,
+                                "director", "The Duffer Brothers",
+                                "type", "webseries"
+                        )
+                ),
+                new Document(
+                        "Dark",
+                        Map.of(
+                                "genre", "Sci-Fi",
+                                "year", 2017,
+                                "director", "Baran bo Odar",
+                                "type", "webseries"
+                        )
+                ),
+                new Document(
+                        "The Boys",
+                        Map.of(
+                                "genre", "Action",
+                                "year", 2019,
+                                "director", "Eric Kripke",
+                                "type", "webseries"
+                        )
+                ),
+                new Document(
+                        "Death Note",
+                        Map.of(
+                                "genre", "Psychological Thriller",
+                                "year", 2006,
+                                "director", "Tetsuro Araki",
+                                "type", "anime"
+                        )
+                ),
+                new Document(
+                        "Attack on Titan",
+                        Map.of(
+                                "genre", "Action",
+                                "year", 2013,
+                                "director", "Tetsuro Araki",
+                                "type", "anime"
+                        )
+                ),
+                new Document(
+                        "Demon Slayer",
+                        Map.of(
+                                "genre", "Action",
+                                "year", 2019,
+                                "director", "Haruo Sotozaki",
+                                "type", "anime"
+                        )
+                ),
+                new Document(
+                        "One Piece",
+                        Map.of(
+                                "genre", "Adventure",
+                                "year", 1999,
+                                "director", "Konosuke Uda",
+                                "type", "anime"
+                        )
+                ),
+                new Document(
+                        "Naruto",
+                        Map.of(
+                                "genre", "Action",
+                                "year", 2002,
+                                "director", "Hayato Date",
+                                "type", "anime"
                         )
                 )
         );
+
 
         vectorStore.add(movies);
 
@@ -85,8 +197,8 @@ public class AiService {
         return vectorStore.similaritySearch(
                 SearchRequest.builder()
                         .query(text)
-                        .topK(2)
-                        .similarityThreshold(0.7)
+                        .topK(4)
+                        .similarityThreshold(0.3)
                         /*
                         we can add expression
                         if we vector data for spring ai
@@ -101,41 +213,7 @@ public class AiService {
         );
     }
 
-    public String askAiRAG(String text){
 
-        String template = """
-    You are a movie recommendation system.
-    and your name is :'suraj ai system'
-    Use the following movie information to answer the user's question.
-
-    Context:
-    '{context}'
-
-    Recommend a movie should based on the context only.
-   
-""";
-
-
-        List<Document> documents= similaritySearch(text);
-        String context = documents.stream()
-                .map(doc->doc.getText())
-                .collect(Collectors.joining("\n"));
-
-//        promptTemplate.add("question",text);
-//        promptTemplate.add("context",context);
-
-
-        PromptTemplate promptTemplate = new PromptTemplate(template);
-        String systemPrompt = promptTemplate.render(Map.of("context",context));
-        System.out.println("System Promp :"+systemPrompt);
-
-        return openAiChatClient
-                .prompt()
-                .system(systemPrompt)
-                .user(text)
-                .call()
-                .content();
-    }
 
     public String getJoke(String topic){
         return openAiChatClient
