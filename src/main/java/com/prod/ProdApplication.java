@@ -1,6 +1,8 @@
 package com.prod;
 
 import com.prod.services.AiService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.document.Document;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,14 +17,19 @@ public class ProdApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProdApplication.class, args);
 	}
-
+//
 //	@Bean
 //	public CommandLineRunner commandLineRunner(AiService aiService){
 //
 //		return new CommandLineRunner() {
 //			@Override
 //			public void run(String... args) throws Exception {
-//				aiService.engestDocument("Hello Suraj");
+////				aiService.engestDocument();
+//				for(Document document : aiService.similaritySearch("what is my name ")){
+//					System.out.println(document);
+//				}
+//
+//
 //			}
 //		};
 //	}
