@@ -1,4 +1,27 @@
 
+spring:
+  ai:
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+    openai:
+      chat:
+        model: meta-llama/llama-3.2-3b-instruct
+      base-url: https://openrouter.ai/api/v1
+      api-key: #msmsmsm
+  datasource:
+    url: jdbc:postgresql://localhost:5432/AI
+    username: postgres
+    password: postgres
+
+
+
+
 
 
 

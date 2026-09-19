@@ -30,7 +30,7 @@ public class ProdApplication {
 //					System.out.println(document);
 //				}
 
-				String response =RAGService.askAiRAG("suggest me best movie name want watch for timepass and what is your name ??");
+				String response =RAGService.askAiRAG("what is my name ??");
 				System.out.println(response);
 
 			}

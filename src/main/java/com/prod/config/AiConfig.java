@@ -2,6 +2,9 @@ package com.prod.config;
 
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
+import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.ai.chat.model.ChatModel;
 
 import org.springframework.ai.embedding.EmbeddingModel;
@@ -32,7 +35,13 @@ public class AiConfig {
         return ChatClient.builder(openAiChatModel).build();
     }
 
-
+    @Bean
+    public ChatMemory chatMemory(JdbcChatMemoryRepository chatHistory){
+        return  MessageWindowChatMemory.builder()
+                .chatMemoryRepository(chatHistory)
+                .maxMessages(10)
+                .build();
+    }
     @Bean
     @Primary
     public EmbeddingModel primaryEmbeddingModel(

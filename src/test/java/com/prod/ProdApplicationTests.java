@@ -4,10 +4,13 @@ import com.prod.clients.Student;
 import com.prod.clients.StudentClient;
 import com.prod.config.RestClientConfig;
 import com.prod.entities.User;
+import com.prod.services.AiService;
 import com.prod.services.JwtService;
 import com.prod.services.PostServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,33 +27,16 @@ import java.util.Map;
 
 
 @SpringBootTest
-
 class ProdApplicationTests {
+	@Autowired
+	private AiService aiService;
+
+	@Qualifier("openAiEmbeddingModel")
+	private EmbeddingModel embeddingModel;
 
 	@Autowired
-	@Qualifier("fatsApi")
-	private RestClient restClient;
+	private VectorStore vectorStore;
 
-	@Autowired
-	private PostServiceImpl postService;
-
-	@Test
-	void contextLoads() {
-
-		System.out.println(restClient.get().uri("/students/")
-				.retrieve()
-				.body(new ParameterizedTypeReference<List<Student>>(){}));
-
-	}
-
-	@Test
-	void l(){
-
-		JwtService service=new JwtService();
-		User user = User.builder().email("rj@").build();
-		String token=service.generateJWT(user);
-		System.out.println(service.parseJwt(token));
-	}
 
 
 

@@ -3,7 +3,10 @@ package com.prod.services;
 import com.prod.config.PROMPT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
@@ -22,6 +25,7 @@ public class RAGService {
 
     private final ChatClient openAiChatClient;
     private final VectorStore vectorStore;
+    private final ChatMemory chatMemory;
 
     public String askAiRAG(String text) {
 
@@ -43,9 +47,17 @@ public class RAGService {
                 .searchRequest(vectorMovie())
                 .promptTemplate(promptTemplate)
                 .build();
-
+        String conversationId ="suraj";
         return openAiChatClient.prompt(text)
-                .advisors(qaAdvisor)
+
+                .advisors(
+                        MessageChatMemoryAdvisor.builder(chatMemory)
+                                        .build(),
+                        SimpleLoggerAdvisor.builder().build(),
+                        qaAdvisor
+
+                )
+                .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, conversationId))
                 .call()
                 .content();
     }
