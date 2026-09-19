@@ -15,12 +15,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
+@Table(name="users")
 @Builder
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
