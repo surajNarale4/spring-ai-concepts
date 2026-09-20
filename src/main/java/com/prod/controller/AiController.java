@@ -3,7 +3,9 @@ package com.prod.controller;
 
 import com.openai.models.embeddings.EmbeddingModel;
 import com.prod.dto.AiRequest;
+import com.prod.dto.AiResponse;
 import com.prod.services.AiService;
+import com.prod.services.RAGService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.http.MediaType;
@@ -18,6 +20,12 @@ import java.util.Map;
 public class AiController {
 
     private final AiService aiService;
+    private final RAGService ragService;
+
+    @PostMapping("/ai/chat")
+    public String chatResponse(@RequestBody AiRequest aiRequest){
+        return ragService.askAiTool(aiRequest.getMessage());
+    }
 
 
     @PostMapping(value = "/ai",produces = MediaType.TEXT_EVENT_STREAM_VALUE)

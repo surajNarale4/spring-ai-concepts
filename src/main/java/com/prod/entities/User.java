@@ -27,8 +27,8 @@ public class User implements UserDetails {
     Long id;
     @Column(unique = true)
     private String email;
-    private String password;
 
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Set<Roles> roles;
@@ -40,7 +40,8 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         return roles.stream()
-                .map(role->new SimpleGrantedAuthority("ROLE_"+role.name())).collect(Collectors.toSet());
+                .map(role->new SimpleGrantedAuthority("ROLE_"+role.name()))
+                .collect(Collectors.toSet());
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.prod.services;
 
 
 import com.prod.dto.AiRequest;
+import com.prod.dto.AiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
@@ -251,4 +252,6 @@ public class AiService {
 
         return embeddingModel.embedForResponse(List.of(message));
     }
+
+
 }

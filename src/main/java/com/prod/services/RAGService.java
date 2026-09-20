@@ -2,6 +2,10 @@ package com.prod.services;
 
 import com.prod.config.PROMPT;
 import com.prod.config.tools.DateTimeTools;
+import com.prod.config.tools.FlightBookingTools;
+import com.prod.config.tools.UserTool;
+import com.prod.dto.AiRequest;
+import com.prod.dto.AiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -29,6 +33,8 @@ public class RAGService {
     private final VectorStore vectorStore;
     private final ChatMemory chatMemory;
     private final DateTimeTools dateTimeTools;
+    private final FlightBookingTools flightBookingTools;
+    private final UserTool userTool;
 
     public String askAiRAG(String text) {
 
@@ -75,8 +81,10 @@ public class RAGService {
     public String askAiTool(String text){
         return openAiChatClient.prompt()
                 .user(text)
-                .tools(dateTimeTools)
+                .tools(dateTimeTools,flightBookingTools, userTool)
                 .call()
                 .content();
     }
+
+
 }
