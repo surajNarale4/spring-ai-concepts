@@ -9,15 +9,23 @@ spring:
         repository:
           jdbc:
             initialize-schema: always
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: qwen3:4b-instruct-2507-q4_K_M  #llama3.1:8b
     openai:
       chat:
-        model: meta-llama/llama-3.2-3b-instruct
+        model:  inclusionai/ling-3.0-flash-vl:freeinclusionai #/ling-3.0-flash-vl:freeinclusionai/ling-3.0-flash-vl:freeinclusionai/ling-3.0-flash-vl:free
       base-url: https://openrouter.ai/api/v1
-      api-key: #msmsmsm
+      api-key: sk-or-v1-2e1f05wrong_key3427b152
   datasource:
     url: jdbc:postgresql://localhost:5432/AI
     username: postgres
     password: postgres
+
+logging:
+  level:
+    org.springframework.ai: DEBUG
 
 
 
