@@ -27,7 +27,9 @@ public class AiConfig {
 
     @Bean("ollamaChatClient")
     public ChatClient ollama(@Qualifier("ollamaChatModel") ChatModel ollamaChatModel){
-        return ChatClient.builder(ollamaChatModel).build();
+        return ChatClient.builder(ollamaChatModel)
+                .defaultAdvisors(SimpleLoggerAdvisor.builder().build())
+                        .build();
     }
 
     @Bean("openAiChatClient")

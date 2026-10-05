@@ -27,6 +27,10 @@ public class AiController {
         return ragService.askAiTool(aiRequest.getMessage());
     }
 
+    @PostMapping(value = "/ai/callAdvisor", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<?> advisorResponse(@RequestBody String message){
+        return aiService.responseViaAdvisor(message);
+    }
 
     @PostMapping(value = "/ai",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<?> message(@RequestBody AiRequest aiRequest , @RequestParam("message") String message){

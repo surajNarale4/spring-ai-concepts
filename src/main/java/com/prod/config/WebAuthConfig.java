@@ -33,9 +33,7 @@ public class WebAuthConfig {
 
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(
-                        re->re.requestMatchers("/auth/**").permitAll()
-
-                                .anyRequest().permitAll()
+                        re->re.anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(c->c.disable())

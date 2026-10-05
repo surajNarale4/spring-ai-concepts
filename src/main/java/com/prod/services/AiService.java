@@ -3,6 +3,7 @@ package com.prod.services;
 
 
 
+import com.prod.config.advisor.MutateSystemMessage;
 import com.prod.dto.AiRequest;
 import com.prod.dto.AiResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class AiService {
 
     private final OpenAiEmbeddingModel embeddingModel;
     private final VectorStore vectorStore;
-
+    private MutateSystemMessage mutateSystemMessage;
 
     private final ChatClient openAiChatClient;
 
@@ -247,11 +248,21 @@ public class AiService {
                 .doOnComplete(()->log.info("stream completed..."));
 
            }
-
+    public Flux<?> responseViaAdvisor(String message){
+        mutateSystemMessage = new MutateSystemMessage();
+        return ollamaChatClient
+                .prompt(message)
+                .advisors(mutateSystemMessage)
+                .stream()
+                .content()
+                .doOnComplete(()->log.info("stream completed..."));
+    }
     public EmbeddingResponse getEmbedding(String message) {
 
         return embeddingModel.embedForResponse(List.of(message));
     }
+
+
 
 
 }

@@ -31,8 +31,7 @@ public class ProdApplication {
 //				}
 
 //				String response =RAGService.askAiRAG("can you tell me more information about me?");
-				String response = RAGService.askAiTool("Can you set an alarm 10 minutes from now?");
-				System.out.println(response);
+
 
 			}
 		};
